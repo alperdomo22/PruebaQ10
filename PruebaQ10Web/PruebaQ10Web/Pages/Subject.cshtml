@@ -1,0 +1,100 @@
+﻿@page
+@model SubjectModel
+
+<div class="container">
+    <form method="post">
+        <div class="row justify-content-between">
+            <div class="col-md">
+                <h2>Materias</h2>
+            </div>
+            <div class="col-md">
+                <div class="row justify-content-end w-100 gap-1">
+                    <button type="submit" class="btn btn-outline-primary btn-sm w-auto" name="NewSubject" asp-page-handler="AddSubject">Nuevo</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (Model.Subjects.Length == 0)
+{
+    <p>No hay materias registradas.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Codigo</th>
+                <th scope="col">Creditos</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.NewSubject)
+            {
+                <form method="post">
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1" name="NameNewSubject">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Codigo" aria-label="Codigo" aria-describedby="basic-addon1" name="CodeNewSubject">
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" placeholder="Creditos" aria-label="Creditos" aria-describedby="basic-addon1" name="CreditsNewSubject">
+                    </td>
+                    <td>
+                        <div class="row justify-content-end w-100 gap-1">
+                            <button type="submit" class="btn btn-outline-success btn-sm w-auto" name="Id" asp-page-handler="SaveNewSubject">Guardar</button>
+                            <button type="submit" class="btn btn-outline-danger btn-sm w-auto" name="Id" asp-page-handler="CancelAddSubject">Cancelar</button>
+                        </div>
+                    </td>
+                </tr>
+                </form>
+            }
+            @foreach (var subject in Model.Subjects)
+            {
+                @if (@subject.Id == Model.SubjectEditId)
+                {
+                    <form method="post">
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1" name="NameEditSubject" value="@subject.Name">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Codigo" aria-label="Codigo" aria-describedby="basic-addon1" name="CodeEditSubject" value="@subject.Code">
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" placeholder="Creditos" aria-label="Creditos" aria-describedby="basic-addon1" name="CreditsEditSubject" value="@subject.Credits">
+                        </td>
+                        <td>
+                            <div class="row justify-content-end w-100 gap-1">
+                                <button type="submit" class="btn btn-outline-success btn-sm w-auto" name="Id" asp-page-handler="SaveEditSubject" value="@subject.Id">Guardar</button>
+                                <button type="submit" class="btn btn-outline-danger btn-sm w-auto" name="Id" asp-page-handler="CancelEditSubject" value="@subject.Id">Cancelar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </form>
+                }
+                else
+                {
+                    <form method="post">
+                    <tr>
+                        <td>@subject.Name</td>
+                        <td>@subject.Code</td>
+                        <td>@subject.Credits</td>
+                        <td>
+                            <div class="row justify-content-end w-100 gap-1">
+                                <button type="submit" class="btn btn-outline-warning btn-sm w-auto" name="Id" asp-page-handler="EditSubject" value="@subject.Id">Editar</button>
+                                <button type="submit" class="btn btn-outline-danger btn-sm w-auto" name="Id" asp-page-handler="RemoveSubject" value="@subject.Id">Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </form>
+                }
+            }
+        </tbody>
+    </table>
+}

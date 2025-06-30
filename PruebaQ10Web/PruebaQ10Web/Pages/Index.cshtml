@@ -1,0 +1,108 @@
+﻿@page
+@model IndexModel
+
+<div class="container">
+    <form method="post">
+        <div class="row justify-content-between">
+            <div class="col-md">
+                <h2>Estudiantes</h2>
+            </div>
+            <div class="col-md">
+                <div class="row justify-content-end w-100 gap-1">
+                    <button type="submit" class="btn btn-outline-primary btn-sm w-auto" name="NewStudent" asp-page-handler="AddStudent">Nuevo</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (Model.Students.Length == 0)
+{
+    <p>No hay estudiantes registrados.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Documento</th>
+                <th scope="col">Correo electronico</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.NewStudent)
+            {
+                <form method="post">
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Nombre" aria-label="Nombre" name="FirstnameNewStudent" aria-describedby="basic-addon1">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Apellido" aria-label="Apellido" name="LastnameNewStudent" aria-describedby="basic-addon1">
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" placeholder="Documento" aria-label="Documento" name="DocumentNewStudent" aria-describedby="basic-addon1">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Email" aria-label="Email" name="EmailNewStudent" aria-describedby="basic-addon1">
+                    </td>
+                    <td>
+                        <div class="row justify-content-end w-100 gap-1">
+                            <button type="submit" class="btn btn-outline-success btn-sm w-auto" name="Id" asp-page-handler="SaveNewStudent">Guardar</button>
+                            <button type="submit" class="btn btn-outline-danger btn-sm w-auto" name="Id" asp-page-handler="CancelAddStudent">Cancelar</button>
+                        </div>
+                    </td>
+                </tr>
+                </form>
+            }
+            @foreach (var student in Model.Students)
+            {
+                @if (@student.Id == Model.StudentEditId)
+                {
+                    <form method="post">
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1" name="FirstnameEditStudent" value="@student.FirstName">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Apellido" aria-label="Apellido" aria-describedby="basic-addon1" name="LastnameEditStudent" value="@student.LastName">
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" placeholder="Documento" aria-label="Documento" aria-describedby="basic-addon1" name="DocumentEditStudent" value="@student.Document">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" name="EmailEditStudent" value="@student.Email">
+                        </td>
+                        <td>
+                            <div class="row justify-content-end w-100 gap-1">
+                                <button type="submit" class="btn btn-outline-success btn-sm w-auto" name="Id" asp-page-handler="SaveEditStudent" value="@student.Id">Guardar</button>
+                                <button type="submit" class="btn btn-outline-danger btn-sm w-auto" name="Id" asp-page-handler="CancelEditStudent" value="@student.Id">Cancelar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </form>
+                }
+                else
+                {
+                    <form method="post">
+                    <tr>
+                        <td>@student.FirstName</td>
+                        <td>@student.LastName</td>
+                        <td>@student.Document</td>
+                        <td>@student.Email</td>
+                        <td>
+                            <div class="row justify-content-end w-100 gap-1">
+                                <button type="submit" class="btn btn-outline-warning btn-sm w-auto" name="Id" asp-page-handler="EditStudent" value="@student.Id">Editar</button>
+                                <button type="submit" class="btn btn-outline-danger btn-sm w-auto" name="Id" asp-page-handler="RemoveStudent" value="@student.Id">Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </form>
+                }
+            }
+        </tbody>
+    </table>
+}
